@@ -59,8 +59,11 @@ function returnResponse(httpResponse, status, logger, message){
     }
 
     httpResponse.writeHead(status);
-    httpResponse.write(message);
-    httpResponse.end();
+    httpResponse.write(message,
+      // avoid write after end error
+      function(err){
+        httpResponse.end(); 
+    });
 }
 
 function validateUrl(string){
